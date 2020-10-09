@@ -10,17 +10,17 @@ reference labels for figures, equations, tables, listing and citations.
 
 Let's look at an example to understand the functionality that this plugin
 provides. Say the currently edited markdown file has a number of places where
-several figures are inserted. Each figure has a label written in
-`pandoc-crossref` style: `#fig:somefigname`. There are several such labels
-scattered across current markdown file. Now you start to enter text and you
-need to insert reference to a particular label but do not exactly remember what
-the name of the label is.  If you have this plugin installed, you could fire-up
-a completion menu in insert mode by entering (`CTRL-X CTRL-O`). You will get a
+figures are inserted. Each figure has a label written in `pandoc-crossref`
+style: `#fig:somefigname`. There are several such labels scattered across
+current markdown file. Now you start to enter text and you need to insert
+reference to a particular label but do not exactly remember what the name of
+the label is.  If you have this plugin installed, you could fire-up a
+completion menu in insert mode by entering (`CTRL-X CTRL-O`). You will get a
 popup menu list containing all the labels that are defined in the current
 document.  You could keep on typing few more characters and this list keeps
 getting shorter dynamically, responding to the characters that you typed. When
-your list gets sufficiently shorter, you could use `CTRL-N` or `CTRL-Y` to
-accept the suggested entry.
+your list gets sufficiently shorter, you could use `CTRL-N`, `CTRL-P` or
+`CTRL-Y` to accept the suggested entry.
 
 Relying on the completion menu to insert your references ensures accuracy by
 eliminating the chances of a typo.
@@ -48,48 +48,10 @@ you can do so using the following steps:
 
 - `mkdir -p ~/.vim/pack/myplugins/start`
 - `cd !$`
-- `git clone git-address-to-plugin-folder`
+- `git clone https://github.com/patashish704/pandoc-complete.git`
 
 Here you can change `myplugins` to any other directory name, but the rest of the
 components of the path should remain the same.
-
-## Usage
-
-This plugin populates the omni-completion menu from the following sources
-
-- `[Figure], [Equation], [Listing], [Table]`: Labels of figures, equations,
-  listings, and tables that are present in the currently edited markdown file.
-- `[Citation]` Keys in your bibliography file (.bib file)
-- `[ins-Figure]`: Name of figure (relative path) that you have used in the
-  currently edited markdown file. Note that authors usually keep their figures
-  in a separate folder. Only those figure names will appear in the
-  omni-completion menu that are not yet referenced in the currently edited
-  markdown file.
-
-While in insert mode, press `CTRL-X CTRL-O`, which is the builtin key-chord for
-launching omni-completion menu. You will see all the items listed above in this
-menu. Keep on typing more characters to narrow down your search; the menu will
-dynamically become shorter. When the menu becomes sufficiently short (usually
-to 3-4 entries), you can press `CTRL-X CTRL-N` or `CTRL-X CTRL-P` to make a
-selection.
-
-The bibliography file can be included in the yaml header in one of the
-following two formats:
-
-``` yaml
-bibliography: mycitations.bib
-```
-
-or
-
-``` yaml
-bibliography:
-    - citations/mycitations.bib
-    - someothersource.bib
-```
-
-Keep saving your document periodically. This will refresh the completion list
-and add to it any new labels added to the markdown document.
 
 ## Configuration
 
@@ -99,8 +61,8 @@ In your `~/.vimrc` file, set the following option:
 set completeopt=menuone,noinsert
 ```
 
-This will allow you to dynamically filter out completion menu entries as you
-type in more characters in insert mode.
+This will allow you to dynamically filter completion menu entries as you type
+in more characters in insert mode.
 
 Additionally, the following global variables are available to tailor this
 plugin to suit individual needs:
@@ -130,3 +92,41 @@ called `_fig-myexamplemarkdown/`
 let g:PandocComplete_figdirtype = 1
 let g:PandocComplete_figdirpre = 'demo-fig'
 ```
+
+## Usage
+
+This plugin populates the omni-completion menu from the following sources
+
+- `[Figure], [Equation], [Listing], [Table]`: Labels of figures, equations,
+  listings, and tables that are present in the currently edited markdown file.
+- `[Citation]` Keys in your bibliography file (.bib file)
+- `[ins-Figure]`: Name of figure (relative path) that you wish to insert in the
+  currently edited markdown file. Note that authors usually keep their figures
+  in a separate folder. Only those figure names will appear in the
+  omni-completion menu that are not yet inserted in the currently edited
+  markdown file.
+
+While in insert mode, press `CTRL-X CTRL-O`, which is the builtin key-chord for
+launching omni-completion menu. You will see all the items listed above in this
+menu. Keep on typing more characters to narrow down your search; the menu will
+dynamically become shorter. When the menu becomes sufficiently short (usually
+to 3-4 entries), you can press `CTRL-X CTRL-N` or `CTRL-X CTRL-P` to make a
+selection.
+
+The bibliography file can be included in the yaml header in one of the
+following two formats:
+
+``` yaml
+bibliography: mycitations.bib
+```
+
+or
+
+``` yaml
+bibliography:
+    - citations/mycitations.bib
+    - someothersource.bib
+```
+
+Keep saving your document periodically. This will refresh the completion list
+and add to it any new labels that you entered in the markdown document.
