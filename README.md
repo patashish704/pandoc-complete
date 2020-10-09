@@ -25,7 +25,7 @@ accept the suggested entry.
 Relying on the completion menu to insert your references ensures accuracy by
 eliminating the chances of a typo.
 
-![A demonstration of how the CTRL-X CTRL-O key-chord fires up a completion menu](demo/Peek-demo.gif "Peek-demo"){#fig:peek-demo width=100%}
+![A demonstration of how the CTRL-X CTRL-O key-chord fires up a completion menu](demo/Peek-demo.gif "Peek-demo")
 
 This plugin makes use of the built-in omnicomplete functionality of vim, and is
 therefore superlight. For more detailed information on omni completion and
