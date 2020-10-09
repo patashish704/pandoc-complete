@@ -65,7 +65,7 @@ fun! PandocComplete#PopulatePandoc()
                     \ ))
     endfor
     let l:reflist = systemlist(
-                \ 'grep -oPs "(?<=#)(eq|fig|tbl|lst):[\w-]+" ' . expand('%')
+                \ 'grep -oPs "(?<=#)(eq|fig|tbl|lst|sec):[\w-]+" ' . expand('%')
                 \ )
     let l:mylist = l:biblist + l:reflist
     " let b:mylist = []
@@ -79,6 +79,8 @@ fun! PandocComplete#PopulatePandoc()
             let l:menu = '  [Table]'
         elseif l:item[0:3] ==# 'lst:'
             let l:menu = '  [Listing]'
+        elseif l:item[0:3] ==# 'sec:'
+            let l:menu = '  [Section]'
         else
             let l:menu = '  [Citation]'
         endif

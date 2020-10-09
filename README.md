@@ -6,7 +6,8 @@ If you write academic documents in vim using Pandoc style markdown files and
 utilize the pandoc-crossref and pandoc-citeproc filters for cross-referencing
 and citations, you will find this plugin useful. This plugin sets the
 `'omnifunc'` option (`:h compl-omni`) and populates the completion menu with
-reference labels for figures, equations, tables, listing and citations.
+reference labels for figures, equations, tables, listing, sections and
+citations.
 
 Let's look at an example to understand the functionality that this plugin
 provides. Say the currently edited markdown file has a number of places where
@@ -97,8 +98,9 @@ let g:PandocComplete_figdirpre = 'demo-fig'
 
 This plugin populates the omni-completion menu from the following sources
 
-- `[Figure], [Equation], [Listing], [Table]`: Labels of figures, equations,
-  listings, and tables that are present in the currently edited markdown file.
+- `[Figure], [Equation], [Listing], [Section], [Table]`: Labels of figures,
+  equations, listings, sections and tables that are present in the currently
+  edited markdown file.
 - `[Citation]` Keys in your bibliography file (.bib file)
 - `[ins-Figure]`: Name of figure (relative path) that you wish to insert in the
   currently edited markdown file. Note that authors usually keep their figures
