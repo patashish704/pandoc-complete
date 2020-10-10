@@ -17,8 +17,8 @@ If you write academic documents in vim using
 [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc) filters for
 cross-referencing and citations, you will find this plugin useful. This plugin
 sets the `'omnifunc'` option (`:h compl-omni`) and populates the completion
-menu with reference labels for figures, equations, tables, listing, sections
-and citations.
+menu with reference labels for figures, equations, tables, listing, sections,
+citations and more.
 
 Let's look at an example to understand the functionality that this plugin
 provides. Say the currently edited markdown file has a number of places where
