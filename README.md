@@ -2,12 +2,12 @@
 
 ## Table of Contents
 
--[Introduction](#introduction)
--[Pre-requisites](#pre-requisites)
--[Installation](#installation)
--[Usage](#Usage)
--[Configuration](#configuration)
--[Quick Start](#quick-start)
+- [Introduction](#introduction)
+- [Pre-requisites](#pre-requisites)
+- [Installation](#installation)
+- [Usage](#Usage)
+- [Configuration](#configuration)
+- [Quick Start](#quick-start)
 
 ## Introduction
 
