@@ -90,10 +90,23 @@ fun! PandocComplete#PopulatePandoc()
                     \ 'menu': l:menu,
                     \ })
     endfor
-    " echo l:bibfile
-    " echo l:bibfiles
-    " echo l:biblist
-    " echo b:mylist
+    "
+    " Make a new list where first letter of each word in b:mylist is upper case
+    " This is useful for cases where [@Fig:somefigname] like references are
+    " inserted in the markdown file, e.g., at the beginning of a sentence.
+    "
+    let b:mycaplist = deepcopy(b:mylist)
+    for l:item in b:mycaplist
+        " l:item is a reference (not copy) to each dictionary in b:mycaplist
+        let l:word = l:item['word']
+        let l:menu = l:item['menu']
+        if l:menu ==# '  [Citation]' || l:menu ==# '  [ins-Figure]'
+            continue
+        endif
+        let l:item['word'] = toupper(l:word[0]) . l:word[1:]
+    endfor
+    "
+    " echo b:mycaplist
 endfun
 
 " Write a function to be passed to omnifunc, to convert b:mylist to
@@ -114,8 +127,12 @@ fun! PandocComplete#CompletePandoc(findstart, base)
         return start
     else
         " find entries matching with "a:base"
+        let l:finallist = b:mylist
+        if match(a:base[0], '\u') != -1
+            let l:finallist = b:mycaplist
+        endif
         let res = []
-        for m in b:mylist
+        for m in l:finallist
             if m['word'] =~ '^' . a:base
                 call add(res, m)
             endif

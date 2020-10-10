@@ -1,13 +1,24 @@
 # Completion menu in Pandoc-style markdown files
 
+## Table of Contents
+
+-[Introduction](#introduction)
+-[Pre-requisites](#pre-requisites)
+-[Installation](#installation)
+-[Usage](#Usage)
+-[Configuration](#configuration)
+-[Quick Start](#quick-start)
+
 ## Introduction
 
-If you write academic documents in vim using Pandoc style markdown files and
-utilize the pandoc-crossref and pandoc-citeproc filters for cross-referencing
-and citations, you will find this plugin useful. This plugin sets the
-`'omnifunc'` option (`:h compl-omni`) and populates the completion menu with
-reference labels for figures, equations, tables, listing, sections and
-citations.
+If you write academic documents in vim using
+[Pandoc](https://github.com/jgm/pandoc) style markdown files and utilize the
+[pandoc-crossref](https://github.com/lierdakil/pandoc-crossref) and
+[pandoc-citeproc](https://github.com/jgm/pandoc-citeproc) filters for
+cross-referencing and citations, you will find this plugin useful. This plugin
+sets the `'omnifunc'` option (`:h compl-omni`) and populates the completion
+menu with reference labels for figures, equations, tables, listing, sections
+and citations.
 
 Let's look at an example to understand the functionality that this plugin
 provides. Say the currently edited markdown file has a number of places where
@@ -54,6 +65,50 @@ you can do so using the following steps:
 Here you can change `myplugins` to any other directory name, but the rest of the
 components of the path should remain the same.
 
+## Usage
+
+This plugin populates the omni-completion menu from the following sources
+
+- `[Figure], [Equation], [Listing], [Section], [Table]`: Labels of figures,
+  equations, listings, sections and tables that are present in the currently
+  edited markdown file.
+- `[Citation]` Keys in your bibliography file (.bib file)
+- `[ins-Figure]`: Name of figure (relative path) that you wish to insert in the
+  currently edited markdown file. Note that authors usually keep their figures
+  in a separate folder. Only those figure names will appear in the
+  omni-completion menu that are not yet inserted in the currently edited
+  markdown file. This has been done to keep the completion menu short.
+
+While in insert mode, enter `CTRL-X CTRL-O`, which is the builtin key-chord for
+launching omni-completion menu. You will see all the items listed above in this
+menu. Keep on typing more characters to narrow down your search; the menu will
+dynamically become shorter. When the menu becomes sufficiently short (usually
+to 3-4 entries), you can press `CTRL-X CTRL-N` or `CTRL-X CTRL-P` to make a
+selection.
+
+If you wish to refer to the labels at the beginning of sentences, then insert a
+capital letter and then press `CTRL-X CTRL-O`. For example to insert
+[@Fig:myfig2], type `[@F` in insert mode and then press `CTRL-X CTRL-O` to get
+a popup menu listing figure labels beginning with `F`.
+
+The bibliography file can be included in the yaml header in one of the
+following two formats:
+
+``` yaml
+bibliography: mycitations.bib
+```
+
+or
+
+``` yaml
+bibliography:
+    - citations/mycitations.bib
+    - someothersource.bib
+```
+
+Keep saving your document periodically. This will refresh the completion list
+and add to it any new labels that you entered in the markdown document.
+
 ## Configuration
 
 In your `~/.vimrc` file, set the following option:
@@ -68,9 +123,10 @@ in more characters in insert mode.
 Additionally, the following global variables are available to tailor this
 plugin to suit individual needs:
 
-### Global variables---`g:PandocComplete_figdirtype` and `g:PandocComplete_figdirpre`
+### Global variables: `g:PandocComplete_figdirtype` and `g:PandocComplete_figdirpre`
 
-If you use figures in your markdown file, and your figure is not in the current
+These global variables apply to the `[ins-Figure]` entries described above. If
+you use figures in your markdown file, and your figure is not in the current
 directory, then you need to set these variable in your `~/.vimrc`.
 
 If `g:PandocComplete_figdirtype` is set to `1` and `g:PandocComplete_figdirpre`
@@ -94,41 +150,8 @@ let g:PandocComplete_figdirtype = 1
 let g:PandocComplete_figdirpre = 'demo-fig'
 ```
 
-## Usage
+## Quick Start
 
-This plugin populates the omni-completion menu from the following sources
-
-- `[Figure], [Equation], [Listing], [Section], [Table]`: Labels of figures,
-  equations, listings, sections and tables that are present in the currently
-  edited markdown file.
-- `[Citation]` Keys in your bibliography file (.bib file)
-- `[ins-Figure]`: Name of figure (relative path) that you wish to insert in the
-  currently edited markdown file. Note that authors usually keep their figures
-  in a separate folder. Only those figure names will appear in the
-  omni-completion menu that are not yet inserted in the currently edited
-  markdown file.
-
-While in insert mode, press `CTRL-X CTRL-O`, which is the builtin key-chord for
-launching omni-completion menu. You will see all the items listed above in this
-menu. Keep on typing more characters to narrow down your search; the menu will
-dynamically become shorter. When the menu becomes sufficiently short (usually
-to 3-4 entries), you can press `CTRL-X CTRL-N` or `CTRL-X CTRL-P` to make a
-selection.
-
-The bibliography file can be included in the yaml header in one of the
-following two formats:
-
-``` yaml
-bibliography: mycitations.bib
-```
-
-or
-
-``` yaml
-bibliography:
-    - citations/mycitations.bib
-    - someothersource.bib
-```
-
-Keep saving your document periodically. This will refresh the completion list
-and add to it any new labels that you entered in the markdown document.
+After installing pandoc-complete, `cd` into the `demo` directory and open the
+`demo_pandoc.md` in the vim editor. Try inserting some references by entering
+`CTRL-X CTRL-O` while in insert mode.
