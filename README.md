@@ -128,9 +128,9 @@ In your `~/.vimrc` file, set the following option:
 set completeopt=menuone,noinsert,popup
 ```
 
-The `popup` is required to show extra information for each citation key. These
-options will allow you to dynamically filter completion menu entries as you
-type in more characters in insert mode.
+These options will allow you to dynamically filter completion menu entries as
+you type in more characters in insert mode. The `popup` is required to show
+extra information for each citation key.
 
 You may further use the Vim's built-in options and highlight-groups to
 customize the completion menu. See `:h completeopt, :h completepopup, :h
