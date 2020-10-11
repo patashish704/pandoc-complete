@@ -53,4 +53,3 @@ capital letter and then press `CTRL-X CTRL-O`. For example to insert
 listing figure labels beginning with `F`.
 
 That's all folks !
-
