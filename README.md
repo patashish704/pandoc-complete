@@ -15,12 +15,11 @@
 
 You will find this plugin useful if:
 
-    - You write academic documents or take notes in vim using
-      [Pandoc](https://github.com/jgm/pandoc) style markdown files.
-    - Utilize the
-      [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref) and
-      [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc) filters for
-      cross-referencing and citations.
+- You write academic documents or take notes in vim using
+  [Pandoc](https://github.com/jgm/pandoc) style markdown files.
+- Utilize the [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref)
+  and [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc) filters for
+  cross-referencing and citations.
 
 This plugin sets the `'omnifunc'` option (`:h compl-omni`) and populates the
 completion menu with reference labels for figures, equations, tables, listing,
