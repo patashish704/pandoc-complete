@@ -1,27 +1,53 @@
 "
-" Write a function that fills b:mylist with unused png file paths
+" A utility function that returns a List of matched strings from an external
+" file
+"
+fun! s:MatchFile(file, pattern)
+    let l:matches = []
+    if filereadable(a:file)
+        let l:lines = readfile(a:file)
+        for l:line in l:lines
+            call substitute(
+                        \ l:line,
+                        \ a:pattern,
+                        \ '\=add(l:matches, submatch(0))',
+                        \ 'g'
+                        \ )
+        endfor
+    endif
+    return l:matches
+endfun
+"
+" Write a function that fills b:mylist with unused image file paths
 "
 fun! s:FetchImageNames()
-    let l:dirpre = ''
+    let l:dir = ''
     let l:modifier = ''
     if exists('g:PandocComplete_figdirtype')
         if g:PandocComplete_figdirtype == 1
             if exists('g:PandocComplete_figdirpre')
-                let l:dirpre = g:PandocComplete_figdirpre
+                let l:dir = g:PandocComplete_figdirpre
             endif
         elseif g:PandocComplete_figdirtype == 2
             if exists('g:PandocComplete_figdirpre')
-                let l:dirpre = g:PandocComplete_figdirpre . expand('%:r')
+                let l:dir = g:PandocComplete_figdirpre . expand('%:r')
             endif
         elseif g:PandocComplete_figdirtype == 3
             if exists('g:PandocComplete_figdirpre')
-                let l:dirpre = g:PandocComplete_figdirpre . expand('%:r')
+                let l:dir = g:PandocComplete_figdirpre . expand('%:r')
                 let l:modifier = ':t:r'
             endif
         endif
     endif
     "
-    let l:filelist = globpath(l:dirpre, '*.png', 1, 1)
+    " Add all image extensions to l:filelist
+    "
+    let l:filelist = []
+    call extend(l:filelist, globpath(l:dir, '*.png', 1, 1))
+    call extend(l:filelist, globpath(l:dir, '*.jpg', 1, 1))
+    call extend(l:filelist, globpath(l:dir, '*.svg', 1, 1))
+    call extend(l:filelist, globpath(l:dir, '*.gif', 1, 1))
+    call extend(l:filelist, globpath(l:dir, '*.eps', 1, 1))
     "
     for l:file in l:filelist
         if ! search(l:file, 'nw')
@@ -42,25 +68,66 @@ fun! s:FetchBibItems()
     " parse entriles like this in the yaml header
     " bibliography: mycitations.bib
     "
-    let l:bibfile = system(
-                \ 'grep -oPs "^bibliography:\s*\K[\w-/.]+" ' . expand('%')
-                \ )
-    let l:bibkey = systemlist(
-                \ 'grep -oPs "^@\w+\{\K[\w]+" ' . l:bibfile
-                \ )
-    "
-    " Add additional info for the citation keys. The title of each bib entry is
-    " stored in a list l:bibinfo
-    "
-    let l:bibinfo = systemlist(
-                \ 'sed -nE "/^\s*title\s*=/ s/(\{|\}|,|(^\s*title\s*=\s*))//gp" '
-                \ . l:bibfile
+    let l:bibfiles = []
+    call execute(
+                \ '%s/\v^bibliography\s*:\s*\zs(\w|-|\/|\.|\\)+/' .
+                \ '\=add(l:bibfiles, submatch(0))/gn',
+                \ 'silent!'
                 \ )
     "
     " Parse entries like this in the yaml header:
     " bibliography:
     "   - ashish.bib
     "   - james.bib
+    "
+    call execute(
+                \ '/\v^\s*bibliography\s*:/;/\v^(---|\s*\w+)/' .
+                \ 's/\v^\s+-\s+((\w|-|.|\/|\\)+)/' .
+                \ '\=add(l:bibfiles, submatch(1))/gn',
+                \ 'silent!'
+                \ )
+    "
+    " Extract bib keys from each file in l:bibfiles
+    "
+    let l:bibkeys = []
+    for l:bibfile in l:bibfiles
+        call extend(
+                    \ l:bibkeys,
+                    \ s:MatchFile(
+                        \ l:bibfile,
+                        \ '^\s*@\w\+{\zs\w\+'
+                        \ )
+                    \ )
+    endfor
+    "
+    " Extract title corresponding to each citation key. This title will act as
+    " additional info that will appear in the popup menu
+    "
+    let l:bibtemp = []
+    for l:bibfile in l:bibfiles
+        call extend(
+                    \ l:bibtemp,
+                    \ s:MatchFile(
+                        \ l:bibfile,
+                        \ '^\s*title\s*=\s*\zs.*'
+                        \ )
+                    \ )
+    endfor
+    "
+    " Clean the l:bibtemp of curly braces and commas and store into l:bibinfos
+    "
+    let l:bibinfos = []
+    for l:item in l:bibtemp
+        call add(
+                \ l:bibinfos,
+                \ substitute(
+                    \ l:item,
+                    \ '{\|}\|,',
+                    \ '',
+                    \ 'g'
+                \ )
+                \ )
+    endfor
     "
     " NOTE: List type of yaml array representation of 'bibliography' is
     " not supported, i.e.,
@@ -69,28 +136,13 @@ fun! s:FetchBibItems()
     "
     " is not supported
     "
-    let l:bibfiles = systemlist(
-                \ 'sed -nE "/^bibliography\s*:/, /^[[:alnum:]-]+/ s/^\s+-\s*//gp" '
-                \ . expand('%')
-                \ )
-    for l:bibfileitem in l:bibfiles
-        call extend(l:bibkey,
-                    \ systemlist(
-                    \ 'grep -oPs "^@\w+\{\K[\w]+" ' . l:bibfileitem
-                    \ ))
-        call extend(l:bibinfo,
-                    \ systemlist(
-                    \ 'sed -nE "/^\s*title\s*=/ s/(\{|\}|,|(^\s*title\s*=\s*))//gp" '
-                    \ . l:bibfileitem
-                    \ ))
-    endfor
     "
     " Now add to b:mylist
     "
     let i = 0
-    while i < len(l:bibkey)
-        let l:key = l:bibkey[i]
-        let l:info = l:bibinfo[i]
+    while i < len(l:bibkeys)
+        let l:key = l:bibkeys[i]
+        let l:info = l:bibinfos[i]
         call add(b:mylist, {
                     \ 'icase': 1,
                     \ 'word': l:key,
@@ -105,12 +157,11 @@ endfun
 " Populate b:mylist with labels such as tbl:, eq:, fig: and tbl:
 "
 fun! s:FetchRefLabels()
-    "
-    " Now let's add the label refs for figures, equation, tables etc. in the
-    " current buffer
-    "
-    let l:reflist = systemlist(
-                \ 'grep -oPs "(?<=#)(eq|fig|tbl|lst|sec):[\w-]+" ' . expand('%')
+    let l:reflist = []
+    call execute(
+                \ '%s/\v#\zs(eq:|fig:|lst:|sec:|tbl:)(\w|-)+/' .
+                \ '\=add(l:reflist, submatch(0))/gn',
+                \  'silent!'
                 \ )
     "
     " Lets add the list items to b:mylist
@@ -146,7 +197,7 @@ fun! PandocComplete#PopulatePandoc()
     "
     let b:mylist = []
     "
-    " Populate b:mylist with names (relative path) of png files
+    " Populate b:mylist with names (relative path) of image files
     "
     call s:FetchImageNames()
     "
@@ -158,9 +209,9 @@ fun! PandocComplete#PopulatePandoc()
     "
     call s:FetchRefLabels()
     "
-    " Make a new list where first letter of each word in b:mylist is upper case
-    " This is useful for cases where [@Fig:somefigname] like references are
-    " inserted in the markdown file, e.g., at the beginning of a sentence.
+    " Make a new list where first letter of some words in b:mylist is upper
+    " case. This is useful for cases where [@Fig:somefigname] like references
+    " are inserted in the markdown file, e.g., at the beginning of a sentence.
     "
     let b:mycaplist = deepcopy(b:mylist)
     for l:item in b:mycaplist
