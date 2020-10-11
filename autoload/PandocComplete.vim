@@ -195,6 +195,10 @@ fun! PandocComplete#PopulatePandoc()
     "
     " This is the main function that populates the omni-completion menu
     "
+    " Save the cursor position
+    "
+    let l:save_cursor = getcurpos()
+    "
     let b:mylist = []
     "
     " Populate b:mylist with names (relative path) of image files
@@ -226,6 +230,9 @@ fun! PandocComplete#PopulatePandoc()
         let l:item['word'] = toupper(l:word[0]) . l:word[1:]
     endfor
     "
+    " Restore the cursor position
+    "
+    call setpos('.', l:save_cursor)
 endfun
 
 "

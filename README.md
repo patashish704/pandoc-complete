@@ -14,6 +14,7 @@
 ## Introduction
 
 You will find this plugin useful if:
+
     - You write academic documents or take notes in vim using
       [Pandoc](https://github.com/jgm/pandoc) style markdown files.
     - Utilize the
