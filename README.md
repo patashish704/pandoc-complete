@@ -9,6 +9,7 @@
 - [Configuration](#configuration)
     - [Completion Menu](#completion-menu)
     - [Global Variables](#global-variables-gpandoccomplete_figdirtype-and-gpandoccomplete_figdirpre)
+    - [Autocompletion](#autocompletion)
 - [Quick Start](#quick-start)
 
 ## Introduction
@@ -182,6 +183,21 @@ called `_fig-myexamplemarkdown/`. The entry
 let g:PandocComplete_figdirtype = 1
 let g:PandocComplete_figdirpre = 'demo-fig'
 ```
+
+### Autocompletion
+
+If you ever get tired of typing `CTRL-X CTRL-O` over and over again, you may
+add the following snippet to your `~/.vimrc`.
+
+``` vim
+inoremap @ @<C-X><C-O>
+```
+
+This will automatically launch the completion menu whenever you type @ symbol
+while in insert mode. However, to insert reference labels beginning with a
+capital letter, you will have to press `CTRL-X CTRL-O` again. For example, if
+you wish to insert `@Fig:myfig1`, type `@F` in insert mode and then press
+`CTRL-X CTRL-O` to launch the completion menu containing relevant entries.
 
 ## Quick Start
 
