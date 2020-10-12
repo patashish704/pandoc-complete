@@ -1,4 +1,4 @@
-# Completion menu in Pandoc-style markdown files
+# Pandoc-Complete: Your completion buddy for Pandoc-style markdown files
 
 ## Table of Contents
 
@@ -11,6 +11,7 @@
     - [Global Variables](#global-variables-gpandoccomplete_figdirtype-and-gpandoccomplete_figdirpre)
     - [Autocompletion](#autocompletion)
 - [Quick Start](#quick-start)
+- [License](#license)
 
 ## Introduction
 
@@ -204,3 +205,7 @@ you wish to insert `@Fig:myfig1`, type `@F` in insert mode and then press
 After installing pandoc-complete, `cd` into the `demo` directory and open
 `demo_pandoc.md` in vim editor. Try inserting some references by entering
 `CTRL-X CTRL-O` while in insert mode.
+
+## License
+
+MIT
