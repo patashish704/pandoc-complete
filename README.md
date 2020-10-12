@@ -18,13 +18,13 @@
 You will find this plugin useful if:
 
 - You write academic documents or take notes in vim using
-  [Pandoc](https://github.com/jgm/pandoc) style markdown files.
+  [Pandoc](https://github.com/jgm/pandoc) style markdown files. AND
 - Utilize the [pandoc-crossref](https://github.com/lierdakil/pandoc-crossref)
   and [pandoc-citeproc](https://github.com/jgm/pandoc-citeproc) filters for
   cross-referencing and citations.
 
 This plugin sets the `'omnifunc'` option (`:h compl-omni`) and populates the
-completion menu with reference labels for figures, equations, tables, listing,
+completion menu with reference labels for figures, equations, tables, listings,
 sections, citations and more.
 
 Let's look at an example to understand the functionality that this plugin
@@ -38,15 +38,15 @@ completion menu in insert mode by entering (`CTRL-X CTRL-O`). You will get a
 popup menu list containing all the labels that are defined in the current
 buffer (document). You could keep on typing few more characters and this list
 keeps getting shorter dynamically, responding to the typed characters. When
-your list gets sufficiently shorter, you could use `CTRL-N`, `CTRL-P` or
-`CTRL-Y` to accept the suggested entry.
+your list gets sufficiently shorter, you could use `CTRL-N` or `CTRL-P` to
+accept the suggested entry.
 
 Relying on the completion menu to insert your references ensures accuracy by
 eliminating the chances of a typo.
 
 ![A demonstration of how the CTRL-X CTRL-O key-chord fires up a completion menu](demo/Peek-demo.gif "Peek-demo")
 
-This plugin makes use of the built-in omnicomplete functionality of vim, and is
+This plugin makes use of the built-in omnicomplete feature of vim, and is
 therefore superlight. For more detailed information on omni completion and
 insert completion in general please read the help docs (`:h ins-completion`).
 
@@ -61,7 +61,7 @@ Use your favorite plugin manager to install `pandoc-complete`, which is
 recommended because you can easily keep all your plugins updated.
 
 If instead you wish to manually install `pandoc-complete` using vim's native
-plugin manager, you can do so using the following steps:
+plugin manager, you can do so by following these steps:
 
 - `mkdir -p ~/.vim/pack/myplugins/start`
 - `cd !$`
@@ -89,8 +89,7 @@ While in insert mode, enter `CTRL-X CTRL-O`, which is the builtin key-chord for
 launching omni-completion menu. You will see all the items listed above in this
 menu. Keep on typing more characters to narrow down your search; the menu will
 dynamically become shorter. When the menu becomes sufficiently short (usually
-to 3-4 entries), you can press `CTRL-X CTRL-N` or `CTRL-X CTRL-P` to make a
-selection.
+to 3-4 entries), you can press `CTRL-N` or `CTRL-P` to make a selection.
 
 If you wish to refer to the labels at the beginning of sentences, then in
 insert mode enter a capital letter and then press `CTRL-X CTRL-O`. For example
@@ -115,10 +114,10 @@ bibliography:
 In the omni-completion menu, additional info (title) is shown for each citation
 key that is selected.
 
-Keep saving your document periodically. This will refresh the completion list
-and add to it any new labels that you entered in the markdown document. This
-design decision was made to keep the cpu overhead negligible and to provide
-faster completions.
+Save your document regularly. This will refresh the completion list and add to
+it any new labels that you entered in the markdown document. This design
+decision was made to keep the cpu overhead negligible and to provide faster
+completions.
 
 ## Configuration
 
@@ -130,16 +129,16 @@ In your `~/.vimrc` file, set the following option:
 set completeopt=menuone,noinsert,popup
 ```
 
-These options will allow you to dynamically filter completion menu entries as
-you type in more characters in insert mode. The `popup` is required to show
-extra information for each citation key.
+This  will allow you to dynamically filter completion menu entries as you type
+in more characters in insert mode. The `popup` is required to show extra
+information for each citation key.
 
 You may further use the Vim's built-in options and highlight-groups to
-customize the completion menu. See `:h completeopt, :h completepopup, :h
-highlight`.
+customize the look of completion menu. See `:h completeopt, :h completepopup,
+:h highlight`.
 
-*Example*: I used the following options in `~/.vimrc` to customize the
-completion menu in the demo gif shown above.
+*Example*: I added the following options to `~/.vimrc` to customize the visual
+appearance of completion menu in the demo gif shown above.
 
 ``` vim
 set completepopup=border:off
@@ -147,7 +146,8 @@ highlight Pmenu ctermbg=237 ctermfg=250
 highlight PmenuSel ctermbg=109 ctermfg=234 cterm=bold
 ```
 
-If you write in gvim, then these options should be set in `~/.gvimrc`, e.g.,
+If you edit text in gvim, then these options should be set in `~/.gvimrc`,
+e.g.,
 
 ``` vim
 hi Pmenu guibg=#474747
@@ -160,16 +160,16 @@ plugin to suit individual needs:
 ### Global variables: `g:PandocComplete_figdirtype` and `g:PandocComplete_figdirpre`
 
 These global variables apply to the `[ins-Figure]` entries described above. If
-you have inserted figures in your markdown file, and your figures are not in
+you have inserted images in your markdown file, and your images are not in
 the current directory, then you need to set these variables in your `~/.vimrc`.
 
 If `g:PandocComplete_figdirtype` is set to `1` and `g:PandocComplete_figdirpre`
-is set to a string, say `"figures"`, then the png file is searched in that
+is set to a string, say `"figures"`, then the image file is searched in that
 directory, e.g., `figures/example.png` will appear in the omni-completion menu.
 
 If `g:PandocComplete_figdirtype` is set to `2` and `g:PandocComplete_figdirpre`
 is set to a string say, `"_fig-"`, and your current markdown buffer name is,
-say `myexamplemarkdown.md`, then the png files are searched in a directory
+say `myexamplemarkdown.md`, then the image files are searched in a directory
 called `_fig-myexamplemarkdown/`. The entry
 `_fig-myexamplemarkdown/example.png` will appear in the completion menu.
 
@@ -202,9 +202,10 @@ you wish to insert `@Fig:myfig1`, type `@F` in insert mode and then press
 
 ## Quick Start
 
-After installing pandoc-complete, `cd` into the `demo` directory and open
-`demo_pandoc.md` in vim editor. Try inserting some references by entering
-`CTRL-X CTRL-O` while in insert mode.
+After installing pandoc-complete, `cd` into the `demo` directory that ships
+with this plugin and open `demo_pandoc.md` in vim editor. Try inserting some
+references by entering `CTRL-X CTRL-O` while in insert mode. Take hints from
+the gif file included in the `demo` directory.
 
 ## License
 
