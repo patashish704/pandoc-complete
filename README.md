@@ -205,7 +205,7 @@ you wish to insert `@Fig:myfig1`, type `@F` in insert mode and then press
 After installing pandoc-complete, `cd` into the `demo` directory that ships
 with this plugin and open `demo_pandoc.md` in vim editor. Try inserting some
 references by entering `CTRL-X CTRL-O` while in insert mode. Take hints from
-the gif file included in the `demo` directory.
+the gif file included in the `demo` directory or inserted in this README file.
 
 ## License
 
