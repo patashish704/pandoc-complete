@@ -1,4 +1,4 @@
-# Pandoc-Complete: Your completion buddy for Pandoc-style markdown files
+# Pandoc-Complete: Your completion buddy for editing Pandoc-style markdown files
 
 ## Table of Contents
 
