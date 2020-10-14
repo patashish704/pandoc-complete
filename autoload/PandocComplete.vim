@@ -191,7 +191,7 @@ endfun
 "
 " Putting it all together
 "
-fun! PandocComplete#PopulatePandoc()
+fun! s:PopulatePandoc()
     "
     " This is the main function that populates the omni-completion menu
     "
@@ -242,6 +242,10 @@ endfun
 fun! PandocComplete#CompletePandoc(findstart, base)
     "
     if a:findstart
+        "
+        " Populate the completion menu
+        "
+        call s:PopulatePandoc()
         "
         " locate the start of the word
         "

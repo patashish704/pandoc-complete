@@ -114,10 +114,10 @@ bibliography:
 In the omni-completion menu, additional info (title) is shown for each citation
 key that is selected.
 
-Save your document regularly. This will refresh the completion list and add to
-it any new labels that you entered in the markdown document. This design
-decision was made to keep the cpu overhead negligible and to provide faster
-completions.
+The current plugin reads from currently edited buffer. You can add new labels
+for figures, tables etc. and they will automatically get introduced into the
+omni-completion menu. You do not need to save the edited markdown file for
+populating the completion menu.
 
 ## Configuration
 
